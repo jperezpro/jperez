@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /tmp/
+Disallow: /temp/
+Disallow: /$Temp/
+
+Sitemap: https://jperez.pro/sitemap.xml
