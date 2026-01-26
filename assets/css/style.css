@@ -1,0 +1,79 @@
+body {
+    font-family: 'Inter', sans-serif;
+}
+.gradient-bg {
+    background-color: #111827;
+    background-image: radial-gradient(circle at top left, rgba(55, 65, 81, 0.4), transparent 30%),
+                      radial-gradient(circle at bottom right, rgba(79, 70, 229, 0.3), transparent 40%);
+}
+.testimonial-carousel {
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    -webkit-mask-image: linear-gradient(to right, transparent, white 20%, white 80%, transparent);
+    mask-image: linear-gradient(to right, transparent, white 20%, white 80%, transparent);
+}
+
+.testimonial-track {
+    display: flex;
+    width: max-content;
+    animation: scroll 60s linear infinite;
+}
+
+.testimonial-track:hover {
+    animation-play-state: paused;
+}
+
+@keyframes scroll {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+.testimonial-card {
+    width: 400px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+.guarantee-box {
+    border: 2px solid #39E59C;
+    background-color: #1a202c;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .testimonial-card {
+        width: 80vw;
+    }
+}
+
+/* WhatsApp Button */
+.whatsapp-float {
+    position: fixed;
+    width: 60px;
+    height: 60px;
+    bottom: 40px;
+    right: 40px;
+    background-color: #25d366;
+    color: #FFF;
+    border-radius: 50px;
+    text-align: center;
+    box-shadow: 2px 2px 3px #999;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.whatsapp-float:hover {
+    transform: scale(1.1);
+    box-shadow: 4px 4px 8px #888;
+}

@@ -1,12 +1,12 @@
 {
-  "name": "proyecto-web-optimizado",
+  "name": "web-personal-jperezpro",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "description": "Sitio web personal de Javier Perez - Consultor TI en Montevideo",
+  "author": "Javier Perez",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jperezpro/web-personal-jperezpro.git"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "keywords": ["consultor-ti", "desarrollo-web", "montevideo", "transformacion-digital"]
 }
