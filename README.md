@@ -1,30 +1,77 @@
-# Javier Perez - Consultor en TI
+# jperez.pro - Sitio personal de Javier Perez
 
-Este es el repositorio del sitio web personal de Javier Perez, un consultor en TI con más de 10 años de experiencia en transformación digital, desarrollo web y optimización de procesos.
+Sitio personal y pagina de venta de Javier Perez, desarrollador web y consultor
+TI en Montevideo. Ofrece sitios web que convierten visitantes en citas
+agendadas, para profesionales independientes y comercios de Uruguay.
 
-## Descripción
+## Estructura
 
-El sitio web funciona como un portafolio profesional para mostrar los servicios, proyectos y experiencia de Javier. El objetivo principal es atraer a potenciales clientes y presentar una imagen profesional y moderna.
+| Archivo | Rol |
+|---|---|
+| `index.html` | **La pagina de venta.** Presentacion, trabajos reales, planes con precios, garantia y FAQ. Es la URL principal. |
+| `pages/proyectos.html` | Galeria de trabajos, sin contenido comercial. |
+| `pages/conectapro.html` | Redireccion a la home (`noindex`). Ver "Historia" mas abajo. |
+| `pages/gracias.html` | Pagina de agradecimiento post-contacto. |
+| `pages/guia-*.html` | Guias sueltas (Fireflies, Google Business, Toggl Track). |
 
-El sitio está diseñado como una `Single Page Application (SPA)` e incluye las siguientes secciones:
+### Por que la venta esta en la home
 
-*   **Hero Section:** Una imagen de bienvenida con un eslogan claro y conciso.
-*   **Servicios:** Una descripción detallada de los servicios ofrecidos (Consultoría TI, Desarrollo Web, Publicidad).
-*   **Sobre Mí:** Una sección personal para generar confianza y presentar a Javier.
-*   **Llamada a la Acción (CTA):** Una sección para que los visitantes agenden una sesión estratégica.
-*   **Footer:** Con enlaces a redes sociales y copyright.
+La oferta y la prueba que la respalda viven juntas, en la URL con mas
+autoridad del dominio. Los seis sitios de clientes son clickeables y
+verificables: **esa es la prueba social del sitio, no hay testimonios**. Si
+se agregan testimonios en el futuro, tienen que ser reales y atribuibles.
 
-## Stack Tecnológico
+Separar "quien soy" de "cuanto cuesta" obligaba a mantener dos paginas y a que
+un visitante -- o un buscador -- reconstruyera la relacion entre ambas.
 
-*   **HTML5**
-*   **CSS3**
-*   **Tailwind CSS:** para un diseño rápido y responsivo.
-*   **Google Fonts:** para la tipografía.
-*   **JavaScript:** para la interactividad del menú móvil.
+### Historia: Conecta Pro
 
-## Cómo Empezar
+Hasta septiembre de 2026 la venta vivia en `pages/conectapro.html`, bajo la
+marca "Conecta Pro". Se disolvio: era un nombre de fantasia sin trayectoria
+verificable, y la pagina habia quedado con testimonios ficticios, un logo roto
+y avisos vencidos justamente por ser una pagina aparte que nadie revisaba.
 
-1.  Clonar o descargar este repositorio.
-2.  Abrir el archivo `index.html` en un navegador web.
+El archivo se conserva como redireccion porque puede haber links repartidos.
 
-El sitio es estático y no requiere ningún paso de compilación o instalación.
+## SEO y datos estructurados
+
+La home incluye JSON-LD con tres nodos, pensados para que un buscador -- o un
+asistente de IA -- pueda responder sin ambiguedad quien presta el servicio,
+cuanto cuesta y que dudas resuelve:
+
+- `Person`: Javier Perez, oficio y ciudad.
+- `ProfessionalService`: area de servicio y catalogo de planes **con precios**.
+- `FAQPage`: las 8 preguntas frecuentes.
+
+Al tocar precios o FAQ en el HTML, **actualizar tambien el JSON-LD**: si se
+desincronizan, Google puede penalizar el structured data.
+
+## Mantenimiento
+
+- **El anio del footer se calcula solo** (`new Date().getFullYear()`). No
+  hardcodear un anio: ya paso que quedara viejo.
+- **Sin fechas ni cupos que venzan.** Nada de "solo 8 cupos en octubre": si
+  no hay alguien que lo actualice cada mes, queda desactualizado.
+- Al agregar o quitar un proyecto, actualizarlo en **los dos lados**:
+  `index.html` (seccion Trabajos) y `pages/proyectos.html`.
+- Los sitios sin dominio propio se enlazan por su `.pages.dev`, que
+  administramos nosotros, no por el dominio del cliente.
+- El sitio esta cubierto por el QA automatizado del repo `browser-automation`
+  (sitio `jperez`). Si cambian los titulos de seccion, hay que actualizar los
+  selectores ahi.
+
+## Stack
+
+HTML estatico + Tailwind (CDN) + Google Fonts. Sin build.
+Analytics: Google Analytics (`G-K21M2K3TKG`). Pagos: Mercado Pago.
+
+## Deploy
+
+Cloudflare Pages, proyecto `web-personal-jperezpro`. **Push a `main` despliega
+solo**; no se sube nada a mano. Dominio: `jperez.pro`.
+
+Para desarrollo local basta con servir la carpeta:
+
+```
+python -m http.server 8080
+```
