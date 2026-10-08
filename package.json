@@ -4,6 +4,9 @@
   "description": "Sitio web personal de Javier Perez - Consultor TI en Montevideo",
   "author": "Javier Perez",
   "license": "MIT",
+  "scripts": {
+    "build:css": "npx --yes tailwindcss@3.4.19 -c tailwind.config.js -o assets/css/tailwind.css --minify"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/jperezpro/web-personal-jperezpro.git"
