@@ -58,8 +58,9 @@ desincronizan, Google puede penalizar el structured data.
   (3:2, como las demas), con `srcset`, `sizes`, `width`/`height` y
   `loading="lazy"`: copiar el `<img>` de un proyecto existente. El PNG o JPG
   original queda en la carpeta como fuente.
-- **Si se tocan clases de Tailwind en cualquier HTML, recompilar el CSS**
-  (ver "CSS" abajo). Si no, la clase nueva no tiene estilos en produccion.
+- **Si se tocan clases de Tailwind en cualquier HTML o `style.css`, correr
+  `npm run build:css`** (ver "CSS" abajo). Si no, la clase nueva no tiene
+  estilos en produccion y la portada sigue con el CSS viejo incrustado.
 - Los sitios sin dominio propio se enlazan por su `.pages.dev`, que
   administramos nosotros, no por el dominio del cliente.
 - El sitio esta cubierto por el QA automatizado del repo `browser-automation`
@@ -79,21 +80,35 @@ Analytics: Google Analytics (`G-K21M2K3TKG`). Pagos: Mercado Pago.
   octubre de 2026 Tailwind se cargaba por CDN (`cdn.tailwindcss.com`), que
   compilaba en el navegador y frenaba la primera pintura en celular. No se
   edita a mano.
+- **En la portada (`index.html`) el CSS va incrustado** en un `<style>` del
+  `<head>`, entre los marcadores `css-inline:inicio` y `css-inline:fin`: es
+  `style.css` (sin comentarios ni espacios) + `tailwind.css`, en ese orden. Asi
+  la portada se pinta apenas llega el HTML, sin esperar dos pedidos de hojas de
+  estilo. Lo que hay entre los marcadores **no se edita a mano**: lo escribe
+  `scripts/inline-css.js`. Las demas paginas (`pages/*.html`) siguen cargando
+  los dos archivos con `<link>`.
 
-Para regenerarlo (necesita Node; la primera vez `npx` baja tailwindcss 3.4.19):
+Despues de tocar `style.css` o clases de Tailwind (necesita Node; la primera
+vez `npx` baja tailwindcss 3.4.19):
 
 ```
 npm run build:css
 ```
 
-y commitear el `tailwind.css` resultante junto con el HTML. Escanea
-`index.html` y `pages/**/*.html` (`tailwind.config.js`). Una clase que se
-agregue solo desde JavaScript tiene que aparecer escrita en algun HTML para
-entrar al CSS (hoy la unica es `hidden`, del menu mobile).
+Compila `tailwind.css` y despues lo incrusta, junto con `style.css`, en
+`index.html`. Commitear todo junto: `tailwind.css`, `index.html` y lo que se
+haya tocado. Correrlo dos veces seguidas no cambia nada; si un cambio de
+`style.css` no aparece en la portada, falto correrlo.
 
-En cada pagina `tailwind.css` va **despues** de `style.css`: es el orden en que
-quedaba el CDN, y con el mismo orden las utilidades de Tailwind siguen ganando
-la cascada igual que antes.
+Escanea `index.html` y `pages/**/*.html` (`tailwind.config.js`), salteando el
+bloque incrustado de la portada: si lo leyera, las palabras del propio CSS
+entrarian como clases nuevas. Una clase que se agregue solo desde JavaScript
+tiene que aparecer escrita en algun HTML para entrar al CSS (hoy la unica es
+`hidden`, del menu mobile).
+
+En cada pagina `tailwind.css` va **despues** de `style.css` (tambien dentro del
+`<style>` de la portada): es el orden en que quedaba el CDN, y con el mismo
+orden las utilidades de Tailwind siguen ganando la cascada igual que antes.
 
 La hoja de Google Fonts se pide con `rel="preload"` y se aplica al llegar
 (`onload`), con `<noscript>` de respaldo: no bloquea la primera pintura. Como
