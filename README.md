@@ -54,6 +54,8 @@ desincronizan, Google puede penalizar el structured data.
   no hay alguien que lo actualice cada mes, queda desactualizado.
 - Al agregar o quitar un proyecto, actualizarlo en **los dos lados**:
   `index.html` (seccion Trabajos) y `pages/proyectos.html`.
+- **Si se tocan clases de Tailwind en cualquier HTML, recompilar el CSS**
+  (ver "CSS" abajo). Si no, la clase nueva no tiene estilos en produccion.
 - Los sitios sin dominio propio se enlazan por su `.pages.dev`, que
   administramos nosotros, no por el dominio del cliente.
 - El sitio esta cubierto por el QA automatizado del repo `browser-automation`
@@ -62,8 +64,32 @@ desincronizan, Google puede penalizar el structured data.
 
 ## Stack
 
-HTML estatico + Tailwind (CDN) + Google Fonts. Sin build.
+HTML estatico + Tailwind (compilado, ver abajo) + Google Fonts. Sin build en
+Cloudflare: lo que esta en el repo es lo que se publica.
 Analytics: Google Analytics (`G-K21M2K3TKG`). Pagos: Mercado Pago.
+
+### CSS
+
+- `assets/css/style.css`: estilos propios, escritos a mano.
+- `assets/css/tailwind.css`: **generado**, minificado y versionado. Hasta
+  octubre de 2026 Tailwind se cargaba por CDN (`cdn.tailwindcss.com`), que
+  compilaba en el navegador y frenaba la primera pintura en celular. No se
+  edita a mano.
+
+Para regenerarlo (necesita Node; la primera vez `npx` baja tailwindcss 3.4.19):
+
+```
+npm run build:css
+```
+
+y commitear el `tailwind.css` resultante junto con el HTML. Escanea
+`index.html` y `pages/**/*.html` (`tailwind.config.js`). Una clase que se
+agregue solo desde JavaScript tiene que aparecer escrita en algun HTML para
+entrar al CSS (hoy la unica es `hidden`, del menu mobile).
+
+En cada pagina `tailwind.css` va **despues** de `style.css`: es el orden en que
+quedaba el CDN, y con el mismo orden las utilidades de Tailwind siguen ganando
+la cascada igual que antes.
 
 ## Deploy
 
