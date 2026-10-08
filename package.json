@@ -5,7 +5,7 @@
   "author": "Javier Perez",
   "license": "MIT",
   "scripts": {
-    "build:css": "npx --yes tailwindcss@3.4.19 -c tailwind.config.js -o assets/css/tailwind.css --minify"
+    "build:css": "npx --yes tailwindcss@3.4.19 -c tailwind.config.js -o assets/css/tailwind.css --minify && node scripts/inline-css.js"
   },
   "repository": {
     "type": "git",
