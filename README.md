@@ -53,7 +53,11 @@ desincronizan, Google puede penalizar el structured data.
 - **Sin fechas ni cupos que venzan.** Nada de "solo 8 cupos en octubre": si
   no hay alguien que lo actualice cada mes, queda desactualizado.
 - Al agregar o quitar un proyecto, actualizarlo en **los dos lados**:
-  `index.html` (seccion Trabajos) y `pages/proyectos.html`.
+  `index.html` (seccion Trabajos) y `pages/proyectos.html`. La captura se
+  sirve en WebP en dos anchos, `<nombre>-720.webp` y `<nombre>-1080.webp`
+  (3:2, como las demas), con `srcset`, `sizes`, `width`/`height` y
+  `loading="lazy"`: copiar el `<img>` de un proyecto existente. El PNG o JPG
+  original queda en la carpeta como fuente.
 - **Si se tocan clases de Tailwind en cualquier HTML, recompilar el CSS**
   (ver "CSS" abajo). Si no, la clase nueva no tiene estilos en produccion.
 - Los sitios sin dominio propio se enlazan por su `.pages.dev`, que
