@@ -95,6 +95,11 @@ En cada pagina `tailwind.css` va **despues** de `style.css`: es el orden en que
 quedaba el CDN, y con el mismo orden las utilidades de Tailwind siguen ganando
 la cascada igual que antes.
 
+La hoja de Google Fonts se pide con `rel="preload"` y se aplica al llegar
+(`onload`), con `<noscript>` de respaldo: no bloquea la primera pintura. Como
+ya usaba `display=swap`, el texto aparece con la fuente del sistema y cambia a
+Inter cuando llega.
+
 ## Deploy
 
 Cloudflare Pages, proyecto `web-personal-jperezpro`. **Push a `main` despliega
