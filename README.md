@@ -117,17 +117,26 @@ Inter cuando llega.
 
 ## Deploy
 
-Cloudflare Pages, proyecto `web-personal-jperezpro`. **Push a `main` despliega
-solo**; no se sube nada a mano. Dominio: `web-personal-jperezpro.pages.dev`
-(el dominio propio `jperez.pro` no se renueva: vence el 02/12/2026).
+Cloudflare Pages, proyecto `jperez`. **Push a `main` despliega solo**; no se
+sube nada a mano. Dominio: `jperez.pages.dev`.
 
-Desde el 10/10/2026 `jperez.pro` y `www.jperez.pro` redirigen con un 301 a la
-misma pagina en el `pages.dev`: lo hace `functions/_middleware.js`, una Pages
-Function que mira el dominio de cada pedido y deja pasar todo lo demas. Se hizo
-asi y no con una Redirect Rule de la zona porque no requiere el panel de
-Cloudflare. `_routes.json` deja `assets/` fuera de la Function: las imagenes y
-el CSS se sirven directo, sin invocarla. Cuando el dominio venza, los dos
-archivos sobran.
+Dominios viejos, que redirigen con un 301 a la misma pagina en
+`jperez.pages.dev`:
+
+- `jperez.pro` y `www.jperez.pro`: el dominio propio no se renueva, vence el
+  02/12/2026.
+- `web-personal-jperezpro.pages.dev`: el `pages.dev` del proyecto anterior,
+  `web-personal-jperezpro`, usado del 09 al 10/10/2026. El nombre de un
+  proyecto de Pages no se cambia, por eso se creo `jperez`. El proyecto viejo
+  sigue conectado a este repo (tiene `jperez.pro` como dominio propio) y
+  publica el mismo codigo.
+
+Lo hace `functions/_middleware.js`, una Pages Function que mira el dominio de
+cada pedido y deja pasar todo lo demas. Se hizo asi y no con una Redirect Rule
+de la zona porque no requiere el panel de Cloudflare. `_routes.json` deja
+`assets/` fuera de la Function: las imagenes y el CSS se sirven directo, sin
+invocarla. Cuando venza `jperez.pro`, el proyecto viejo se puede borrar y los
+dos archivos sobran.
 
 Para desarrollo local basta con servir la carpeta:
 

@@ -4,4 +4,4 @@ Disallow: /tmp/
 Disallow: /temp/
 Disallow: /$Temp/
 
-Sitemap: https://web-personal-jperezpro.pages.dev/sitemap.xml
+Sitemap: https://jperez.pages.dev/sitemap.xml
