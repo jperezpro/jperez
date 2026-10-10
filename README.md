@@ -121,6 +121,14 @@ Cloudflare Pages, proyecto `web-personal-jperezpro`. **Push a `main` despliega
 solo**; no se sube nada a mano. Dominio: `web-personal-jperezpro.pages.dev`
 (el dominio propio `jperez.pro` no se renueva: vence el 02/12/2026).
 
+Desde el 10/10/2026 `jperez.pro` y `www.jperez.pro` redirigen con un 301 a la
+misma pagina en el `pages.dev`: lo hace `functions/_middleware.js`, una Pages
+Function que mira el dominio de cada pedido y deja pasar todo lo demas. Se hizo
+asi y no con una Redirect Rule de la zona porque no requiere el panel de
+Cloudflare. `_routes.json` deja `assets/` fuera de la Function: las imagenes y
+el CSS se sirven directo, sin invocarla. Cuando el dominio venza, los dos
+archivos sobran.
+
 Para desarrollo local basta con servir la carpeta:
 
 ```
