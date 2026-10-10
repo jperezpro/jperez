@@ -1,4 +1,4 @@
-# web-personal-jperezpro - Sitio personal de Javier Perez
+# jperez - Sitio personal de Javier Perez
 
 Sitio personal y pagina de venta de Javier Perez, desarrollador web y consultor
 TI en Montevideo. Ofrece sitios web que convierten visitantes en citas
@@ -118,7 +118,8 @@ Inter cuando llega.
 ## Deploy
 
 Cloudflare Pages, proyecto `jperez`. **Push a `main` despliega solo**; no se
-sube nada a mano. Dominio: `jperez.pages.dev`.
+sube nada a mano. Dominio: `jperez.pages.dev`. El repo se llamaba
+`web-personal-jperezpro` hasta el 10/10/2026 (GitHub redirige el nombre viejo).
 
 Dominios viejos, que redirigen con un 301 a la misma pagina en
 `jperez.pages.dev`:
