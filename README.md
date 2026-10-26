@@ -1,146 +1,107 @@
-# jperez - Sitio personal de Javier Perez
+# jperez
 
-Sitio personal y pagina de venta de Javier Perez, desarrollador web y consultor
-TI en Montevideo. Ofrece sitios web que convierten visitantes en citas
-agendadas, para profesionales independientes y comercios de Uruguay.
+Web personal y página de servicios de **Javier Perez**, desarrollador web y
+consultor TI en Montevideo, Uruguay. Sitios para profesionales independientes y
+comercios que quieren recibir consultas y reservas desde Instagram o WhatsApp.
+
+Sitio estático publicado en Cloudflare Pages (push a la rama principal = deploy).
+
+- Producción: https://jperez.pages.dev
+- Stack: HTML, Tailwind CSS (compilado), JavaScript, Cloudflare Pages Functions
+
+## Qué tiene el sitio
+
+- **Trabajos:** seis sitios publicados y enlazados, de clientes y de
+  emprendimientos propios (barbería, jardinería, tours 360, vidriería,
+  restaurante y casa de alquiler). Es la prueba del sitio: no hay testimonios.
+- **Planes y precios** con suscripción mensual por Mercado Pago y 14 días de
+  prueba.
+- **Preguntas frecuentes** y contacto directo por WhatsApp.
+
+## Cómo está hecho
+
+- HTML estático, sin framework ni build en el servidor: lo que está en `main`
+  es lo que se publica.
+- Tailwind CSS 3.4 compilado a un archivo propio (`assets/css/tailwind.css`),
+  en lugar del CDN que compilaba en el navegador.
+- En la portada el CSS va incrustado en el `<head>` (`scripts/inline-css.js`),
+  así la primera pintura no espera hojas externas.
+- Imágenes WebP en dos anchos con `srcset`, `sizes`, `width` y `height`, y
+  carga diferida.
+- Google Fonts con `preload` y `display=swap`, sin bloquear el render.
+- JSON-LD con `Person`, `ProfessionalService` (planes y precios) y `FAQPage`;
+  Open Graph, canonical y sitemap.
+- Cabeceras de seguridad en `_headers`: HSTS, `X-Frame-Options: DENY`,
+  `nosniff`, `Referrer-Policy` y `Permissions-Policy`.
+- Una Pages Function (`functions/_middleware.js`) redirige con 301 los
+  dominios anteriores y responde 404 a los archivos del repo que no son parte
+  del sitio. `_redirects` cubre los mismos archivos como respaldo.
+- Controles táctiles de 44 px o más, foco visible para teclado y respeto por
+  `prefers-reduced-motion`.
+
+## Resultados medidos
+
+Cada cambio de rendimiento está explicado en su commit, con el antes y el
+después.
+
+| Cambio | Antes | Después |
+|---|---|---|
+| Tailwind | Script del CDN de ~125 KB que bloqueaba el render | CSS propio de 16 KB (4 KB comprimido) |
+| Fondo del encabezado | PNG de 1,6 MB | WebP de 41 KB |
+| Primera pintura con Google Fonts sin bloquear (celular emulado, 4G lento, CPU x4, mediana de 4 pares) | 1,6 s | 0,63 s |
+| Controles por debajo de 44 px | 3 (el menú medía 24 px) | 0 |
 
 ## Estructura
 
-| Archivo | Rol |
+| Ruta | Qué es |
 |---|---|
-| `index.html` | **La pagina de venta.** Presentacion, trabajos reales, planes con precios, garantia y FAQ. Es la URL principal. |
-| `pages/proyectos.html` | Galeria de trabajos, sin contenido comercial. |
-| `pages/conectapro.html` | Redireccion a la home (`noindex`). Ver "Historia" mas abajo. |
-| `pages/gracias.html` | Pagina de agradecimiento post-contacto. |
-| `pages/guia-*.html` | Guias sueltas (Fireflies, Google Business, Toggl Track). |
+| `index.html` | Portada: presentación, trabajos, planes, garantía y preguntas frecuentes. |
+| `pages/proyectos.html` | Galería de trabajos. |
+| `pages/gracias.html` | Página a la que vuelve Mercado Pago después de suscribirse (`noindex`). |
+| `pages/guia-*.html` | Guías prácticas: Fireflies, Google Business y Toggl Track. |
+| `pages/conectapro.html` | Redirige una URL anterior a la portada (`noindex`). |
+| `404.html` | Página de error para las rutas que no existen. |
+| `assets/` | CSS e imágenes. |
+| `functions/_middleware.js` | Redirecciones 301 y bloqueo de archivos internos. |
+| `_headers`, `_redirects`, `_routes.json` | Configuración de Cloudflare Pages. |
 
-### Por que la venta esta en la home
+## Desarrollo local
 
-La oferta y la prueba que la respalda viven juntas, en la URL con mas
-autoridad del dominio. Los seis sitios de clientes son clickeables y
-verificables: **esa es la prueba social del sitio, no hay testimonios**. Si
-se agregan testimonios en el futuro, tienen que ser reales y atribuibles.
+```
+python -m http.server 8080
+```
 
-Separar "quien soy" de "cuanto cuesta" obligaba a mantener dos paginas y a que
-un visitante -- o un buscador -- reconstruyera la relacion entre ambas.
+Para probar también la Pages Function y los `_redirects`:
 
-### Historia: Conecta Pro
+```
+npx --yes wrangler@4 pages dev . --ip 127.0.0.1 --port 8788
+```
 
-Hasta septiembre de 2026 la venta vivia en `pages/conectapro.html`, bajo la
-marca "Conecta Pro". Se disolvio: era un nombre de fantasia sin trayectoria
-verificable, y la pagina habia quedado con testimonios ficticios, un logo roto
-y avisos vencidos justamente por ser una pagina aparte que nadie revisaba.
-
-El archivo se conserva como redireccion porque puede haber links repartidos.
-
-## SEO y datos estructurados
-
-La home incluye JSON-LD con tres nodos, pensados para que un buscador -- o un
-asistente de IA -- pueda responder sin ambiguedad quien presta el servicio,
-cuanto cuesta y que dudas resuelve:
-
-- `Person`: Javier Perez, oficio y ciudad.
-- `ProfessionalService`: area de servicio y catalogo de planes **con precios**.
-- `FAQPage`: las 8 preguntas frecuentes.
-
-Al tocar precios o FAQ en el HTML, **actualizar tambien el JSON-LD**: si se
-desincronizan, Google puede penalizar el structured data.
-
-## Mantenimiento
-
-- **El anio del footer se calcula solo** (`new Date().getFullYear()`). No
-  hardcodear un anio: ya paso que quedara viejo.
-- **Sin fechas ni cupos que venzan.** Nada de "solo 8 cupos en octubre": si
-  no hay alguien que lo actualice cada mes, queda desactualizado.
-- Al agregar o quitar un proyecto, actualizarlo en **los dos lados**:
-  `index.html` (seccion Trabajos) y `pages/proyectos.html`. La captura se
-  sirve en WebP en dos anchos, `<nombre>-720.webp` y `<nombre>-1080.webp`
-  (3:2, como las demas), con `srcset`, `sizes`, `width`/`height` y
-  `loading="lazy"`: copiar el `<img>` de un proyecto existente. El PNG o JPG
-  original queda en la carpeta como fuente.
-- **Si se tocan clases de Tailwind en cualquier HTML o `style.css`, correr
-  `npm run build:css`** (ver "CSS" abajo). Si no, la clase nueva no tiene
-  estilos en produccion y la portada sigue con el CSS viejo incrustado.
-- Los sitios sin dominio propio se enlazan por su `.pages.dev`, que
-  administramos nosotros, no por el dominio del cliente.
-- El sitio esta cubierto por el QA automatizado del repo `browser-automation`
-  (sitio `jperez`). Si cambian los titulos de seccion, hay que actualizar los
-  selectores ahi.
-
-## Stack
-
-HTML estatico + Tailwind (compilado, ver abajo) + Google Fonts. Sin build en
-Cloudflare: lo que esta en el repo es lo que se publica.
-Analytics: Google Analytics (`G-K21M2K3TKG`). Pagos: Mercado Pago.
-
-### CSS
-
-- `assets/css/style.css`: estilos propios, escritos a mano.
-- `assets/css/tailwind.css`: **generado**, minificado y versionado. Hasta
-  octubre de 2026 Tailwind se cargaba por CDN (`cdn.tailwindcss.com`), que
-  compilaba en el navegador y frenaba la primera pintura en celular. No se
-  edita a mano.
-- **En la portada (`index.html`) el CSS va incrustado** en un `<style>` del
-  `<head>`, entre los marcadores `css-inline:inicio` y `css-inline:fin`: es
-  `style.css` (sin comentarios ni espacios) + `tailwind.css`, en ese orden. Asi
-  la portada se pinta apenas llega el HTML, sin esperar dos pedidos de hojas de
-  estilo. Lo que hay entre los marcadores **no se edita a mano**: lo escribe
-  `scripts/inline-css.js`. Las demas paginas (`pages/*.html`) siguen cargando
-  los dos archivos con `<link>`.
-
-Despues de tocar `style.css` o clases de Tailwind (necesita Node; la primera
-vez `npx` baja tailwindcss 3.4.19):
+Después de tocar clases de Tailwind o `assets/css/style.css` (necesita Node):
 
 ```
 npm run build:css
 ```
 
-Compila `tailwind.css` y despues lo incrusta, junto con `style.css`, en
-`index.html`. Commitear todo junto: `tailwind.css`, `index.html` y lo que se
-haya tocado. Correrlo dos veces seguidas no cambia nada; si un cambio de
-`style.css` no aparece en la portada, falto correrlo.
+Compila `tailwind.css` y lo incrusta, junto con `style.css`, entre los
+marcadores `css-inline` de `index.html`. Lo que hay entre esos marcadores no
+se edita a mano. Correrlo dos veces no cambia nada. Se commitean juntos
+`tailwind.css`, `index.html` y lo que se haya tocado.
 
-Escanea `index.html` y `pages/**/*.html` (`tailwind.config.js`), salteando el
-bloque incrustado de la portada: si lo leyera, las palabras del propio CSS
-entrarian como clases nuevas. Una clase que se agregue solo desde JavaScript
-tiene que aparecer escrita en algun HTML para entrar al CSS (hoy la unica es
-`hidden`, del menu mobile).
+## Mantenimiento
 
-En cada pagina `tailwind.css` va **despues** de `style.css` (tambien dentro del
-`<style>` de la portada): es el orden en que quedaba el CDN, y con el mismo
-orden las utilidades de Tailwind siguen ganando la cascada igual que antes.
+- Al cambiar precios o preguntas frecuentes, actualizar también el JSON-LD de
+  `index.html`: tienen que decir lo mismo que el texto visible.
+- Un trabajo nuevo va en `index.html` y en `pages/proyectos.html`. La captura
+  se sirve en WebP en dos anchos, `<nombre>-720.webp` y `<nombre>-1080.webp`
+  (3:2): copiar el `<img>` de un proyecto existente.
+- El año del pie se calcula solo (`new Date().getFullYear()`).
+- Sin fechas ni cupos que venzan en los textos.
 
-La hoja de Google Fonts se pide con `rel="preload"` y se aplica al llegar
-(`onload`), con `<noscript>` de respaldo: no bloquea la primera pintura. Como
-ya usaba `display=swap`, el texto aparece con la fuente del sistema y cambia a
-Inter cuando llega.
+## Publicación
 
-## Deploy
+Cloudflare Pages, conectado a este repo: cada push a `main` publica el sitio
+en https://jperez.pages.dev. Los dominios anteriores redirigen con 301 a la
+misma ruta.
 
-Cloudflare Pages, proyecto `jperez`. **Push a `main` despliega solo**; no se
-sube nada a mano. Dominio: `jperez.pages.dev`. El repo se llamaba
-`web-personal-jperezpro` hasta el 10/10/2026 (GitHub redirige el nombre viejo).
-
-Dominios viejos, que redirigen con un 301 a la misma pagina en
-`jperez.pages.dev`:
-
-- `jperez.pro` y `www.jperez.pro`: el dominio propio no se renueva, vence el
-  02/12/2026.
-- `web-personal-jperezpro.pages.dev`: el `pages.dev` del proyecto anterior,
-  `web-personal-jperezpro`, usado del 09 al 10/10/2026. El nombre de un
-  proyecto de Pages no se cambia, por eso se creo `jperez`. El proyecto viejo
-  sigue conectado a este repo (tiene `jperez.pro` como dominio propio) y
-  publica el mismo codigo.
-
-Lo hace `functions/_middleware.js`, una Pages Function que mira el dominio de
-cada pedido y deja pasar todo lo demas. Se hizo asi y no con una Redirect Rule
-de la zona porque no requiere el panel de Cloudflare. `_routes.json` deja
-`assets/` fuera de la Function: las imagenes y el CSS se sirven directo, sin
-invocarla. Cuando venza `jperez.pro`, el proyecto viejo se puede borrar y los
-dos archivos sobran.
-
-Para desarrollo local basta con servir la carpeta:
-
-```
-python -m http.server 8080
-```
+Hecho por Javier Perez · https://jperez.pages.dev

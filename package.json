@@ -1,15 +1,16 @@
 {
   "name": "jperez",
   "version": "1.0.0",
+  "private": true,
   "description": "Sitio web personal de Javier Perez - Consultor TI en Montevideo",
   "author": "Javier Perez",
-  "license": "MIT",
+  "license": "UNLICENSED",
   "scripts": {
     "build:css": "npx --yes tailwindcss@3.4.19 -c tailwind.config.js -o assets/css/tailwind.css --minify && node scripts/inline-css.js"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/jperezpro/web-personal-jperezpro.git"
+    "url": "https://github.com/jperezpro/jperez.git"
   },
   "keywords": ["consultor-ti", "desarrollo-web", "montevideo", "transformacion-digital"]
 }
