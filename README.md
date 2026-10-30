@@ -14,8 +14,8 @@ Sitio estático publicado en Cloudflare Pages (push a la rama principal = deploy
 - **Trabajos:** seis sitios publicados y enlazados, de clientes y de
   emprendimientos propios (barbería, jardinería, tours 360, vidriería,
   restaurante y casa de alquiler). Es la prueba del sitio: no hay testimonios.
-- **Planes y precios** con suscripción mensual por Mercado Pago y 14 días de
-  prueba.
+- **Plan único** de 670 pesos por mes, por Mercado Pago, sin prueba gratis
+  ni permanencia.
 - **Preguntas frecuentes** y contacto directo por WhatsApp.
 
 ## Cómo está hecho
@@ -55,7 +55,7 @@ después.
 
 | Ruta | Qué es |
 |---|---|
-| `index.html` | Portada: presentación, trabajos, planes, garantía y preguntas frecuentes. |
+| `index.html` | Portada: presentación, trabajos, planes, sin permanencia y preguntas frecuentes. |
 | `pages/proyectos.html` | Galería de trabajos. |
 | `pages/gracias.html` | Página a la que vuelve Mercado Pago después de suscribirse (`noindex`). |
 | `pages/guia-*.html` | Guías prácticas: Fireflies, Google Business y Toggl Track. |
