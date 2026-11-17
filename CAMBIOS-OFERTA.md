@@ -20,3 +20,8 @@ por Javier el 16/11/2026.
 
 Frase para el sí: **«Publicá las webs nuevas»** (sale junto con tourvirtual360). Con ese sí:
 merge de `oferta-2026-11-16` a `main` y push; Cloudflare Pages publica solo.
+
+## Ajuste del 17/11/2026, antes de publicar
+
+- Sin USD en la página: el costo del dominio propio nuevo queda como «lo pagás aparte, una
+  vez por año», sin cifra en dólares.
