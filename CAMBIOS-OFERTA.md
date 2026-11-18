@@ -37,3 +37,7 @@ Decisión de Javier: al cliente no le interesa el dominio y no se ofrecen más l
 - **Sin llamadas:** el paso 3 y `pages/gracias.html` dicen «te explico por WhatsApp cómo
   funciona»; el cierre «Agendá una llamada corta» pasa a «Escribime por WhatsApp» con el
   mismo número wa.me de la página (sale el enlace de Google Calendar).
+
+## Ajuste del 18/11/2026: vuelven Normaluz y Nuevo Alcalá
+
+Decisión de Javier: son trabajos suyos y forman parte del portfolio, aunque ya no sean clientes. Vuelven sus dos tarjetas en Trabajos.
