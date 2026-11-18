@@ -25,3 +25,15 @@ merge de `oferta-2026-11-16` a `main` y push; Cloudflare Pages publica solo.
 
 - Sin USD en la página: el costo del dominio propio nuevo queda como «lo pagás aparte, una
   vez por año», sin cifra en dólares.
+
+## Ajuste del 17/11/2026 (tarde): sin dominio y sin llamadas
+
+Decisión de Javier: al cliente no le interesa el dominio y no se ofrecen más llamadas.
+
+- **Sin dominio ni tecnicismos:** sale el ítem «Dirección web incluida (tunombre.pages.dev)…»,
+  la pregunta «Ya tengo un dominio propio» (FAQ visible y JSON-LD) y la opción «Tengo dominio,
+  no web» del formulario. La pregunta de costos y el texto de Planes dicen «todo lo que tu web
+  necesita para estar online y su mantenimiento», sin hosting, SSL ni dominio.
+- **Sin llamadas:** el paso 3 y `pages/gracias.html` dicen «te explico por WhatsApp cómo
+  funciona»; el cierre «Agendá una llamada corta» pasa a «Escribime por WhatsApp» con el
+  mismo número wa.me de la página (sale el enlace de Google Calendar).
